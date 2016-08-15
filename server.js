@@ -4,8 +4,8 @@ var http = require("http");
 var fs = require("fs");
 var path = require("path");
 var mime = require("mime");
-//var express = require('express')
-var cors = require('cors')
+var express = require('express'),
+    cors = require('cors')
 //  , app = express();
 /* 
 app.use(cors());
