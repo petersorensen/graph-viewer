@@ -4,8 +4,8 @@ var http = require("http");
 var fs = require("fs");
 var path = require("path");
 var mime = require("mime");
-var express = require('express'),
-    cors = require('cors');
+//var express = require('express'),
+//    cors = require('cors');
 //  , app = express();
 /* 
 app.use(cors());
@@ -60,7 +60,7 @@ var server = http.createServer(function(request, response) {
   serverWorking(response, absPath);
 });
 
-server.use(cors());
+//server.use(cors());
 var port_number = server.listen(process.env.PORT || 3000);
 /*
 http.createServer(function(request, response) {
