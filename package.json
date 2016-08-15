@@ -4,7 +4,8 @@
   "version" : "0.0.1",
   "description" : "My graph viewer",
   "dependencies" : {
-    "mime" : "~1.2.7"
-    "cors" : "~2.7.1"
+    "mime" : "~1.2.7",
+    "cors" : "~2.7.1",
+    "express" :"~4.14.0"
   }
 }
