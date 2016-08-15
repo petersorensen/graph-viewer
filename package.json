@@ -1,0 +1,9 @@
+
+{
+  "name" : "graph-viewer",
+  "version" : "0.0.1",
+  "description" : "My graph viewer",
+  "dependencies" : {
+    "mime" : "~1.2.7"
+  }
+}
