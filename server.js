@@ -5,7 +5,7 @@ var fs = require("fs");
 var path = require("path");
 var mime = require("mime");
 var express = require('express'),
-    cors = require('cors')
+    cors = require('cors');
 //  , app = express();
 /* 
 app.use(cors());
