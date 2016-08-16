@@ -12,9 +12,14 @@ var express = require('express'),
 var port = process.env.PORT || 3000;
 var hostname = 'localhost';
 
-app.use(cors());
+//app.use(cors());
 app.use(morgan('dev'));
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 /*
 http.createServer(function(request, response) {
   response.writeHead(200, {"Content-Type": "text/plain"});
@@ -34,17 +39,6 @@ app.use(express.static(__dirname+'/public'));
 });
  */
 var server = app.listen(port);
-
-//var server = http.createServer(app);
-
-/*app.get('/products/:id', function(req, res, next){
-  res.json({msg: 'This is CORS-enabled for all origins!'});
-});
- 
-app.listen(80, function(){
-  console.log('CORS-enabled web server listening on port 80');
-});
-*/
 
 function send404(response) {
   response.writeHead(404, {"Content-type" : "text/plain"});
