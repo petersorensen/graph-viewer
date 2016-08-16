@@ -13,7 +13,7 @@ var port = process.env.PORT || 3000;
 var hostname = 'localhost';
 
 app.use(morgan('dev'));
-app.use(cors());
+//app.use(cors());
 
 
 /*
