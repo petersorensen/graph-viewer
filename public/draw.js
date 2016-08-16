@@ -1,4 +1,13 @@
 //buil an equalizer with multiple biquad filters
+
+var audioCtx = window.AudioContext || window.webkitAudioContext;
+//crossorigin="anonymous"
+
+var canvas;
+var audioContext, canvasContext;
+var analyser;
+var dataArray, bufferLength;
+
 var width, height;
 var showNo = 0;
 var maxTime = 1;
@@ -16,12 +25,32 @@ var canvasContexts = [];
 
 
 window.onload = function() {
+  audioContext= new audioCtx();
+  
+  loadmp3canvas();
+  canvases[0] = canvas;
+  canvasContexts[0] = canvas.getContext('2d');
+
+  buildAudioGraph();
+  
+  requestAnimationFrame(visualize2);
+
+  canvasContexts[0] = canvas.getContext('2d');
+};
+
+
+
+
+
+function loadmp3canvas() {
   var canvas  = document.getElementById("Canvas0");
   width = canvas.width;
   height = canvas.height;
-  canvases[0] = canvas;
-  canvasContexts[0] = canvas.getContext('2d');
+  canvasContext = canvas.getContext('2d');
 };
+
+
+
 
 function appendCanvases() {
   mainDiv = document.getElementById("myscreen");
@@ -327,9 +356,89 @@ function makeCorsRequest(url) {
     alert('Woops, there was an error making the request.');
   };
 
-  xhr.withCredentials = true;      // AALOWS COOKIES. Server must also allow. Set only when cookies are needed
+  //xhr.withCredentials = true;      // AALOWS COOKIES. Server must also allow. Set only when cookies are needed
 
   xhr.send();
     console.log("Ajax request sent... wait until it downloads completely");
 }
 //--------------------------------------------------------------------------------------
+
+
+
+
+
+
+function buildAudioGraph() {
+  var mediaElement = document.getElementById('player');
+  var sourceNode =   audioContext.createMediaElementSource(mediaElement);
+  
+  // Create an analyser node
+  analyser = audioContext.createAnalyser();
+  
+  // Try changing for lower values: 512, 256, 128, 64...
+  analyser.fftSize = 256;
+  bufferLength = analyser.frequencyBinCount;
+  dataArray = new Uint8Array(bufferLength);
+  
+  sourceNode.connect(analyser);
+  analyser.connect(audioContext.destination);
+}
+
+function visualize2() {
+  console.log("Vizualization");
+    canvasContext.save();
+    canvasContext.fillStyle = "rgba(0, 0, 0, 0.05)";
+    canvasContext.fillRect (0, 0, width, height);
+
+    analyser.getByteFrequencyData(dataArray);
+    var nbFreq = dataArray.length;
+    
+    var SPACER_WIDTH = 5;
+    var BAR_WIDTH = 2;
+    var OFFSET = 100;
+    var CUTOFF = 23;
+    var HALF_HEIGHT = height/2;
+    var numBars = 1.7*Math.round(width / SPACER_WIDTH);
+    var magnitude;
+  
+    canvasContext.lineCap = 'round';
+
+    for (var i = 0; i < numBars; ++i) {
+       magnitude = 0.3*dataArray[Math.round((i * nbFreq) / numBars)];
+        
+       canvasContext.fillStyle = "hsl( " + Math.round((i*360)/numBars) + ", 100%, 50%)";
+       canvasContext.fillRect(i * SPACER_WIDTH, HALF_HEIGHT, BAR_WIDTH, -magnitude);
+       canvasContext.fillRect(i * SPACER_WIDTH, HALF_HEIGHT, BAR_WIDTH, magnitude);
+
+    }
+    
+    // Draw animated white lines top
+    canvasContext.strokeStyle = "white";
+    canvasContext.beginPath();
+
+    for (i = 0; i < numBars; ++i) {
+        magnitude = 0.3*dataArray[Math.round((i * nbFreq) / numBars)];
+          if(i > 0) {
+            //console.log("line lineTo "  + i*SPACER_WIDTH + ", " + -magnitude);
+            canvasContext.lineTo(i*SPACER_WIDTH, HALF_HEIGHT-magnitude);
+        } else {
+            //console.log("line moveto "  + i*SPACER_WIDTH + ", " + -magnitude);
+            canvasContext.moveTo(i*SPACER_WIDTH, HALF_HEIGHT-magnitude);
+        }
+    }
+    for (i = 0; i < numBars; ++i) {
+        magnitude = 0.3*dataArray[Math.round((i * nbFreq) / numBars)];
+          if(i > 0) {
+            //console.log("line lineTo "  + i*SPACER_WIDTH + ", " + -magnitude);
+            canvasContext.lineTo(i*SPACER_WIDTH, HALF_HEIGHT+magnitude);
+        } else {
+            //console.log("line moveto "  + i*SPACER_WIDTH + ", " + -magnitude);
+            canvasContext.moveTo(i*SPACER_WIDTH, HALF_HEIGHT+magnitude);
+        }
+    }    
+    canvasContext.stroke();
+    
+    canvasContext.restore();
+  
+  requestAnimationFrame(visualize2);
+}
