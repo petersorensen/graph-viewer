@@ -280,13 +280,16 @@ function createCORSRequest(method, url) {
   var xhr = new XMLHttpRequest();
 
   if ("withCredentials" in xhr) {
+       console.log("-- with Credentials");
     // XHR for Chrome/Firefox/Opera/Safari.
     xhr.open(method, url, true);
   } else if (typeof XDomainRequest != "undefined") {
     // XDomainRequest for IE.
+           console.log("-- IE");
     xhr = new XDomainRequest();
     xhr.open(method, url);
   } else {
+           console.log("-- CORS not supported");
     // CORS not supported.
     xhr = null;
   }
