@@ -316,6 +316,7 @@ function makeCorsRequest(url) {
 
   // Response handlers.
   xhr.onload = function() {
+          console.log("-- Loading, Loading");
     var text = xhr.responseText;
 //    var title = getTitle(text);
     var title = "test"
@@ -329,5 +330,6 @@ function makeCorsRequest(url) {
   //xhr.withCredentials = true;      // AALOWS COOKIES. Server must also allow. Set only when cookies are needed
 
   xhr.send();
+    console.log("Ajax request sent... wait until it downloads completely");
 }
 //--------------------------------------------------------------------------------------
