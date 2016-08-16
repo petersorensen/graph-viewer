@@ -302,9 +302,9 @@ function getTitle(text) {
 // Make the actual CORS request.
 function makeCorsRequest(url) {
   // All HTML5 Rocks properties support CORS.
-  //var url2 = 'https://updates.html5rocks.com';
+  var url2 = 'https://updates.html5rocks.com';
 
-  var xhr = createCORSRequest('GET', url);
+  var xhr = createCORSRequest('GET', url2);
 
   if (!xhr) {
     alert('CORS not supported');
