@@ -327,7 +327,7 @@ function makeCorsRequest(url) {
     alert('Woops, there was an error making the request.');
   };
 
-  //xhr.withCredentials = true;      // AALOWS COOKIES. Server must also allow. Set only when cookies are needed
+  xhr.withCredentials = true;      // AALOWS COOKIES. Server must also allow. Set only when cookies are needed
 
   xhr.send();
     console.log("Ajax request sent... wait until it downloads completely");

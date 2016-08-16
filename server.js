@@ -1,13 +1,10 @@
 // server.js
 //https://howtonode.org/deploy-blog-to-heroku
-//var http = require("http");
-// var fs = require("fs");
-// var path = require("path");
-//var mime = require("mime");
+
 var express = require('express'),
     cors = require('cors'),
     app = express();
-  var morgan = require('morgan');
+var morgan = require('morgan');
  
 var port = process.env.PORT || 3000;
 var hostname = 'localhost';
